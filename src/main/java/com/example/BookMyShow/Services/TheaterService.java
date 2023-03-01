@@ -22,6 +22,8 @@ public class TheaterService {
     public String createThetaer(TheaterEntryDto theaterEntryDto){
         TheaterEntity theaterEntity= TheaterConverter.TheaterDtoEntry(theaterEntryDto);
         List<TheaterSeatEnity> seatEnities=createThetaerseats(theaterEntryDto,theaterEntity);
+        theaterEntity.setTheaterSeatEnityList(seatEnities);
+        theaterRepository.save(theaterEntity);
         return "Theatre is created";
     }
     public List<TheaterSeatEnity> createThetaerseats(TheaterEntryDto entryDto,TheaterEntity theater){
@@ -31,15 +33,17 @@ public class TheaterService {
 
         for (int count=1;count<=noofClassicSeats;count++){
             TheaterSeatEnity theaterSeatEnity=TheaterSeatEnity.builder()
-                    .seatType(SeatType.CLASSIC).seatNo(count+"C").build();
+                    .seatType(SeatType.CLASSIC).seatNo(count+"C")
+                    .theaterEntity(theater).build();
             seatEnityList.add(theaterSeatEnity);
         }
-        for (int count=1;count<=noofClassicSeats;count++){
+        for (int count=1;count<=noOfPremiumSeatCount;count++){
             TheaterSeatEnity theaterSeatEnity=TheaterSeatEnity.builder()
-                    .seatType(SeatType.CLASSIC).seatNo(count+"C").build();
+                    .seatType(SeatType.PREMIUM).seatNo(count+"P")
+                    .theaterEntity(theater).build();
             seatEnityList.add(theaterSeatEnity);
         }
-          seatRepository.saveAll(seatEnityList);
+
         return seatEnityList;
     }
 }

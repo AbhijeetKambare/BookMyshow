@@ -3,6 +3,8 @@ package com.example.BookMyShow.Models;
 import com.example.BookMyShow.Enums.ShowType;
 import jakarta.persistence.*;
 import jdk.jfr.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +20,8 @@ import java.util.List;
 @Table(name = "shows")
 @Data
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class ShowEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
