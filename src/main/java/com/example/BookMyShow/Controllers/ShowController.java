@@ -1,14 +1,12 @@
 package com.example.BookMyShow.Controllers;
 
 import com.example.BookMyShow.EntryDtos.ShowEntryDto;
+import com.example.BookMyShow.RequestDtos.getspecificShowsDto;
 import com.example.BookMyShow.Services.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/shows")
@@ -23,6 +21,16 @@ public class ShowController {
         }catch (Exception e){
             String response="unable to create show";
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("getShows")
+    public ResponseEntity getShows(@RequestBody() getspecificShowsDto getspecificShows){
+        try {
+            String response= showService.getListOFshows(getspecificShows);
+            return new ResponseEntity<>(response,HttpStatus.FOUND);
+        }catch (Exception e){
+            String string="no shows is present";
+            return new ResponseEntity<>(string,HttpStatus.NOT_FOUND);
         }
     }
 }

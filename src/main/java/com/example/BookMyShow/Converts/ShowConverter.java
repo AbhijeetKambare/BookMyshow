@@ -10,4 +10,5 @@ public class ShowConverter {
                 .showType(entryDto.getShowType()).build();
         return showEntity;
     }
+
 }

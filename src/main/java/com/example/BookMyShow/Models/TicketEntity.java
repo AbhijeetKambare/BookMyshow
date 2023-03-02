@@ -22,6 +22,7 @@ public class TicketEntity {
     private int totalAmount;
     private String ticketId= UUID.randomUUID().toString();
     private String theaterName;
+    private String bookedSeats;
     //this is child wrt user entity
     @ManyToOne
     @JoinColumn

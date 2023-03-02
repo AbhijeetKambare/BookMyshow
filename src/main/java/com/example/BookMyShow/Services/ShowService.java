@@ -7,6 +7,7 @@ import com.example.BookMyShow.Models.*;
 import com.example.BookMyShow.Repositories.MovieRpository;
 import com.example.BookMyShow.Repositories.ShowRepository;
 import com.example.BookMyShow.Repositories.TheaterRepository;
+import com.example.BookMyShow.RequestDtos.getspecificShowsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +45,7 @@ public class ShowService {
 
         showEntity.setListOfShowSeats(seatEntityList);
 
-
         //Now we  also need to update the parent entities
-
 
         showEntity = showRepository.save(showEntity);
 
@@ -63,8 +62,6 @@ public class ShowService {
     }
 
     private List<ShowSeatEntity> createShowSeatEntity(ShowEntryDto showEntryDto,ShowEntity showEntity){
-
-
 
         //Now the goal is to create the ShowSeatEntity
         //We need to set its attribute
@@ -95,5 +92,18 @@ public class ShowService {
         }
 
         return  seatEntityList;
+    }
+
+    public String getListOFshows(getspecificShowsDto getspecificShowsDto)throws Exception{
+        int movieID= getspecificShowsDto.getMovieId();
+        int theaterID= getspecificShowsDto.getTheaterId();
+        String ans=" ";
+        List<ShowEntity> showEntities=showRepository.getshowDetails(movieID, theaterID);
+        int count=1;
+        for(ShowEntity show:showEntities){
+            ans=ans+count+" "+show.getShowDate()+" "+show.getShowTime()+"\n";
+            count++;
+        }
+        return ans;
     }
 }
