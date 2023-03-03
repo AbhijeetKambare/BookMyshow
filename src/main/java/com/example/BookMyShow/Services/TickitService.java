@@ -9,7 +9,10 @@ import com.example.BookMyShow.Models.UserEntity;
 import com.example.BookMyShow.Repositories.ShowRepository;
 import com.example.BookMyShow.Repositories.TickitRepository;
 import com.example.BookMyShow.Repositories.UserRepository;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,7 +28,8 @@ public class TickitService {
     @Autowired
     UserRepository userRepository;
 
-
+    @Autowired
+    JavaMailSender javaMailSender;
     public String booktickit(TickitEntryDto tickitEntryDto)throws Exception{
         TicketEntity ticket= TickitConverter.convrtDtoToEntry(tickitEntryDto);
 
@@ -83,7 +87,16 @@ public class TickitService {
         show.setListOfBookedTickets(ticketEntityList1);
         showRepository.save(show);
 
+        //this is for email inegration
+        String body="Hi thank You for confirming your Tickets "+ticket.getTicketId()+" with seat Number "+allotedSeats+"\n"+
+                "For show "+show.getShowDate() +" at "+ show.getShowTime()+ " in "+show.getShowType();
 
+        MimeMessage mimeMessage=javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper=new MimeMessageHelper(mimeMessage,true);
+        messageHelper.setFrom("isoabhikambare@gmail.com");
+        messageHelper.setTo(userEntity.getEmail());
+        messageHelper.setText(body);
+        messageHelper.setSubject("Confirming your tickits");
         return "tickit generated successfully";
     }
     private  String getAllotedseatsfromShowseat(TickitEntryDto entryDto){

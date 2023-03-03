@@ -33,4 +33,14 @@ public class ShowController {
             return new ResponseEntity<>(string,HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/GetmaxShowsMovie")
+    public ResponseEntity getMovieName(){
+        try{
+            String response=showService.getmaxnoofShowsinallTheater();
+            return new ResponseEntity<>(response,HttpStatus.FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("Not showing record",HttpStatus.NOT_FOUND);
+        }
+    }
 }

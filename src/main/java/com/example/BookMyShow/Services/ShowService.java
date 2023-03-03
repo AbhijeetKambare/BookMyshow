@@ -106,4 +106,10 @@ public class ShowService {
         }
         return ans;
     }
+    public String getmaxnoofShowsinallTheater(){
+        //this will return max no of shows which is having max no shows over al lthaters; min short max shows movie
+        List<ShowEntity> showEntity=showRepository.getmaxNoOfshowswhichMovieHave();
+        getspecificShowsDto showsDto= new getspecificShowsDto();
+        return showEntity.get(0).getMovieEntity().getMovieName();
+    }
 }
